@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,7 +37,20 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
+            if ($e instanceof TokenExpiredException ||
+                $e instanceof TokenInvalidException) {
+                return $this->error($e->getMessage(), 401);
+            }
+            if ($e instanceof JWTException) {
+                return $this->error($e->getMessage(), 400);
+            }
+
+            return $this->error($e->getMessage(), 400);
         });
+    }
+
+    public function error($message, $code = 400)
+    {
+        return response(['message' => $message], $code);
     }
 }

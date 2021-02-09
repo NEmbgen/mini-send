@@ -35,6 +35,8 @@ class ContentMail extends Mailable
     {
         return $this->view('mails.content-mail')
             ->from($this->from)
+            ->html($this->html)
+            ->text($this->html) // TODO: What is correct here?
             ->to($this->to)
             ->with('body', $this->html)
             ->subject($this->subject);

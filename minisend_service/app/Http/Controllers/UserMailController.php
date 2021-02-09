@@ -21,13 +21,15 @@ class UserMailController extends Controller
         if ($request->has('q') && $request->get('q') !== null) {
             $q = $request->get('q');
             $query->where('subject', 'LIKE', '%' . $q . '%');
-            $query->where('to', 'LIKE', '%' . $q . '%');
-            $query->whereHas('user', function ($query) use ($q) {
-                $query->where('first_name', 'LIKE', '%' . $q . '%')
-                    ->where('last_name', 'LIKE', '%' . $q . '%')
-                    ->where('email', 'LIKE', '%' . $q . '%');
+            $query->orWhere('to', 'LIKE', '%' . $q . '%');
+            $query->orWhereHas('sender', function ($query) use ($q) {
+                $query->orWhere('first_name', 'LIKE', '%' . $q . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $q . '%')
+                    ->orWhere('email', 'LIKE', '%' . $q . '%');
             });
         }
+
+        $query->with('sender')->limit(10);
 
         return response()->json($query->get());
     }

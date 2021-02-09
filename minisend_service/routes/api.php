@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserMailController;
 use App\Models\UserMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,8 +23,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('mails')->middleware('auth:api')->group(function () {
-    Route::get('', 'UserMailController@index');
-    Route::get('{mail}', 'UserMailController@show');
-    Route::post('send', 'UserMailController@send');
+Route::prefix('emails')->middleware('auth:api')->group(function () {
+    Route::get('', [UserMailController::class, 'index']);
+    Route::get('{mail}', [UserMailController::class, 'show']);
+    Route::post('send', [UserMailController::class, 'send']);
+});
+
+Route::prefix('auth')->middleware('api')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
 });
