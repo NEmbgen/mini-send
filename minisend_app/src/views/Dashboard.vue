@@ -6,9 +6,13 @@
 </template>
 
 <script>
-export default {
-  name: "Dashboard"
-}
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: "Dashboard",
+  methods: {
+  }
+});
 </script>
 
 <style scoped lang="scss">
