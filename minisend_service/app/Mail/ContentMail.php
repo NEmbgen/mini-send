@@ -23,7 +23,7 @@ class ContentMail extends Mailable
         $this->from = $mail->sender->email;
         $this->html = $mail->body;
         $this->subject = $mail->subject;
-        $this->to = $mail->to;
+        $this->to = [$mail->to];
     }
 
     /**

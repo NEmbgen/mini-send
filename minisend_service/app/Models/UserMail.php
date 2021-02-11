@@ -26,7 +26,7 @@ class UserMail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['to', 'subject', 'message'];
+    protected $fillable = ['to', 'subject', 'body'];
 
     /**
      * @return HasMany

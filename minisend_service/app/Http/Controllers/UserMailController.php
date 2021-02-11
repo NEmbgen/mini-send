@@ -23,7 +23,7 @@ class UserMailController extends Controller
             $query->where('subject', 'LIKE', '%' . $q . '%');
             $query->orWhere('to', 'LIKE', '%' . $q . '%');
             $query->orWhereHas('sender', function ($query) use ($q) {
-                $query->orWhere('first_name', 'LIKE', '%' . $q . '%')
+                $query->where('first_name', 'LIKE', '%' . $q . '%')
                     ->orWhere('last_name', 'LIKE', '%' . $q . '%')
                     ->orWhere('email', 'LIKE', '%' . $q . '%');
             });
@@ -42,6 +42,7 @@ class UserMailController extends Controller
     {
         $userMail = new UserMail();
         $userMail->fill($request->all());
+        $userMail->sender_id = auth()->user()->id;
         $userMail->save();
 
         Mail::to($userMail->to)->queue(new ContentMail($userMail));
@@ -50,7 +51,7 @@ class UserMailController extends Controller
             return response()->json(Mail::failures());
         }
 
-        return response()->json($request->all());
+        return response()->json($userMail);
     }
 
     /**
