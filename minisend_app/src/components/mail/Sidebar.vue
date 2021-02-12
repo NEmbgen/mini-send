@@ -10,7 +10,7 @@
         <button :class="mode === 'OUTBOX' ? 'is-primary' : null" class="button" @click="mode = 'OUTBOX'">OUTBOX</button>
       </div>
       <b-field class="mb-0">
-        <b-input v-model="search" :icon-right="search !== null ? 'close-circle' : null"
+        <b-input v-model="search" :icon-right="search !== null && search !== '' ? 'close-circle' : null"
                  icon-right-clickable
                  placeholder="Search..."
                  @input="loadMails(search)"
@@ -42,6 +42,9 @@ export default Vue.extend({
   },
   methods: {
     loadMails(search = null) {
+      if (search === '') {
+        search = null;
+      }
       this.$store.dispatch('email/retrieveEmails', search);
     },
     clearSearch() {
