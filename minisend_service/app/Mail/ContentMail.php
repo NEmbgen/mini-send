@@ -11,7 +11,7 @@ class ContentMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-//    private $content = '';
+    public $userMail;
 
     /**
      * Create a new message instance.
@@ -20,10 +20,7 @@ class ContentMail extends Mailable
      */
     public function __construct(UserMail $mail)
     {
-        $this->from = $mail->sender->email;
-        $this->html = $mail->body;
-        $this->subject = $mail->subject;
-        $this->to = [$mail->to];
+        $this->userMail = $mail;
     }
 
     /**
@@ -34,11 +31,8 @@ class ContentMail extends Mailable
     public function build()
     {
         return $this->view('mails.content-mail')
-            ->from($this->from)
-            ->html($this->html)
-            ->text($this->html) // TODO: What is correct here?
-            ->to($this->to)
-            ->with('body', $this->html)
-            ->subject($this->subject);
+            ->from($this->userMail->sender->email)
+            ->text('mails.content-mail_plain')
+            ->subject($this->userMail->subject);
     }
 }

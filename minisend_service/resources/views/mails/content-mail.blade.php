@@ -1,1 +1,1 @@
-{{ $body }}
+{{ $userMail->body }}

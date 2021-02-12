@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserMailController;
+use App\Http\Controllers\UserMailStatisticsController;
 use App\Models\UserMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,12 @@ Route::prefix('emails')->middleware('auth:api')->group(function () {
     Route::get('', [UserMailController::class, 'index']);
     Route::get('{mail}', [UserMailController::class, 'show']);
     Route::post('send', [UserMailController::class, 'send']);
+});
+
+Route::prefix('email-statistics')->middleware('auth:api')->group(function () {
+    Route::get('outbox-status', [UserMailStatisticsController::class, 'outboxStatus']);
+    Route::get('sent-amount', [UserMailStatisticsController::class, 'sentAmount']);
+    Route::get('leading-recipient', [UserMailStatisticsController::class, 'leadingRecipient']);
 });
 
 Route::prefix('auth')->middleware('api')->group(function () {

@@ -29,6 +29,8 @@ class UserMailController extends Controller
             });
         }
 
+        $query->orderByDesc('created_at');
+
         $query->with('sender')->limit(10);
 
         return response()->json($query->get());
@@ -43,9 +45,10 @@ class UserMailController extends Controller
         $userMail = new UserMail();
         $userMail->fill($request->all());
         $userMail->sender_id = auth()->user()->id;
+        $userMail->status = 'POSTED';
         $userMail->save();
 
-        Mail::to($userMail->to)->queue(new ContentMail($userMail));
+        Mail::to(['email' => $userMail->to])->queue(new ContentMail($userMail));
 
         if (Mail::failures()) {
             return response()->json(Mail::failures());
