@@ -17,6 +17,7 @@ class CreateUserMailAttachmentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_mail_id');
             $table->string('path');
+            $table->string('download_url');
             $table->integer('file_size');
             $table->string('mime_type');
             $table->string('file_name');

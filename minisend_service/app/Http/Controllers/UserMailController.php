@@ -21,7 +21,7 @@ class UserMailController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = UserMail::query();
+        $query = UserMail::where('sender_id', auth()->user()->id);
 
         if ($request->has('q') && $request->get('q') !== null) {
             $q = $request->get('q');
@@ -49,6 +49,7 @@ class UserMailController extends Controller
     public function show(UserMail $mail)
     {
         $mail['sender'] = $mail->sender;
+        $mail['attachments'] = $mail->attachments;
         if (auth()->user()->id === $mail->sender_id) {
             return response()->json($mail);
         } else {
@@ -79,6 +80,7 @@ class UserMailController extends Controller
                 $attachment->mime_type = mime_content_type($file->getPathname());
                 $temp = $file->move(public_path().'/attachments/', $attachment->file_name);
                 $attachment->path = $temp->getPathname();
+                $attachment->download_url = asset('attachments/' . $temp->getFilename());
                 $attachment->save();
             }
         }

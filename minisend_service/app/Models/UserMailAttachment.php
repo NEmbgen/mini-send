@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property UserMail userMail
  * @property string created_at
  * @property string updated_at
+ * @property string download_url
  */
 class UserMailAttachment extends Model
 {
