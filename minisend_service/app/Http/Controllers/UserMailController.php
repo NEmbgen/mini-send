@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContentMail;
+use App\Models\UserMailAttachment;
 use App\Models\UserMail;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -10,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Console\Input\Input;
 
 class UserMailController extends Controller
 {
@@ -65,6 +67,23 @@ class UserMailController extends Controller
         $userMail->sender_id = auth()->user()->id;
         $userMail->status = 'POSTED';
         $userMail->save();
+
+        if(sizeof($request->allFiles()) > 0)
+        {
+            foreach ($request->allFiles() as $file)
+            {
+                $attachment = new UserMailAttachment();
+                $attachment->user_mail_id = $userMail->id;
+                $attachment->file_size = $file->getSize();
+                $attachment->file_name = time() . '_' . $file->getClientOriginalName();
+                $attachment->mime_type = mime_content_type($file->getPathname());
+                $temp = $file->move(public_path().'/attachments/', $attachment->file_name);
+                $attachment->path = $temp->getPathname();
+                $attachment->save();
+            }
+        }
+
+        $userMail['attachments'] = $userMail->attachments;
 
         Mail::to(['email' => $userMail->to])->queue(new ContentMail($userMail));
 

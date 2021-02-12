@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMailAttachmentsTable extends Migration
+class CreateUserMailAttachmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMailAttachmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mail_attachments', function (Blueprint $table) {
+        Schema::create('user_mail_attachments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_mail_id');
             $table->string('path');

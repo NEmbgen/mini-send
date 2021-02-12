@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string status
  * @property string sent_at
  * @property string subject
- * @property MailAttachment[] attachments
+ * @property UserMailAttachment[] attachments
  * @property string body
  * @property string created_at
  * @property string updated_at
@@ -33,7 +33,7 @@ class UserMail extends Model
      */
     public function attachments(): HasMany
     {
-        return $this->hasMany(MailAttachment::class, 'user_mail_id');
+        return $this->hasMany(UserMailAttachment::class, 'user_mail_id');
     }
 
     /**

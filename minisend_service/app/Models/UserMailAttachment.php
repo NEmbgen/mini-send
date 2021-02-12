@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @package App\Models
  * @property integer id
  * @property string file_name
+ * @property string mime_type
  * @property string path
  * @property integer file_size
  * @property integer user_mail_id
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string created_at
  * @property string updated_at
  */
-class MailAttachment extends Model
+class UserMailAttachment extends Model
 {
     use HasFactory;
 

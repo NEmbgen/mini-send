@@ -30,9 +30,14 @@ class ContentMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.content-mail')
+        $data = $this->view('mails.content-mail')
             ->from($this->userMail->sender->email)
             ->text('mails.content-mail_plain')
             ->subject($this->userMail->subject);
+        foreach ($this->userMail->attachments as $attachment) {
+            $data->attach($attachment->path);
+        }
+
+        return $data;
     }
 }
