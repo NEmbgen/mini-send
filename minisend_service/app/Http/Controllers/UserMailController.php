@@ -38,6 +38,8 @@ class UserMailController extends Controller
 
 //        $query->with('sender');
         $query->select(['to', 'created_at', 'subject', 'status', 'id']);
+        $query->with('attachments:id,user_mail_id');
+
 
         return response()->json($query->get());
     }
