@@ -26,7 +26,7 @@ export default Vue.extend({
   ],
   computed: {
     dateTime() {
-      return format(parseISO(this.email.created_at), 'MM/dd/yyyy hh:mm');
+      return format(parseISO(this.email.created_at), 'dd/MM/yyyy hh:mm');
     },
     statusColor() {
       switch (this.email.status) {

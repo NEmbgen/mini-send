@@ -3,16 +3,20 @@
     <div v-if="mail === null" class="no-email-selected">
       <b-icon icon="inbox" size="is-large"></b-icon>
       No Email selected.
+      <b-loading v-model="loading" :is-full-page="false"></b-loading>
     </div>
-    <div v-if="mail !== null" class="card">
+    <div class="card">
+      <b-loading v-model="loading" :is-full-page="false"></b-loading>
       <b-button class="close-email" icon-right="close" type="is-danger" @click="closeEmail()"></b-button>
-      <div class="card-content">
+      <div class="card-content" v-if="mail !== null" >
         <div class="email-header">
           <div class="recipient">
-            <div class="tag is-dark">TO:</div> <div class="tag is-primary">{{ mail.to }}</div>
+            <div class="tag is-dark">TO:</div>
+            <div class="tag is-primary">{{ mail.to }}</div>
           </div>
           <div class="sender">
-            <div class="tag is-dark">FROM:</div> <div class="tag is-primary">{{ mail.sender.email }}</div>
+            <div class="tag is-dark">FROM:</div>
+            <div class="tag is-primary">{{ mail.sender.email }}</div>
           </div>
           <div class="email-meta">
             {{ formatDate(mail.created_at) }}
@@ -24,8 +28,7 @@
               {{ mail.subject }}
             </div>
           </div>
-          <div class="email-body mt-2">
-            {{ mail.body }}
+          <div class="email-body mt-2" v-html="mail.body">
           </div>
         </div>
       </div>
@@ -35,25 +38,40 @@
 
 <script>
 import {format, parseISO} from "date-fns";
+import Vue from 'vue';
 
-export default {
+export default Vue.extend({
   name: "ShowMail",
-  computed: {
-    mail() {
-      console.log(this.$store.getters["email/selectedEmail"]);
-      return this.$store.getters["email/selectedEmail"] || null;
+  data() {
+    return {
+      loading: false,
+      mail: null
+    }
+  },
+  props: ['mailId'],
+  watch: {
+    mailId() {
+      if (this.mailId) {
+        this.loading = true;
+        Vue.axios.get(process.env.VUE_APP_API_URL + `emails/${this.mailId}`).then((resp) => {
+          if (resp && resp.data) {
+            this.mail = resp.data;
+          }
+        }).finally(() => this.loading = false);
+      } else {
+        this.mail = null;
+      }
     }
   },
   methods: {
     closeEmail() {
       this.$store.commit('email/setSelectedEmail', null);
-      console.log(this.$store.getters["email/selectedEmail"]);
     },
     formatDate(date) {
-      return format(parseISO(date), 'MM/dd/yyyy hh:mm');
+      return format(parseISO(date), 'dd/MM/yyyy hh:mm');
     }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>
@@ -61,6 +79,7 @@ export default {
   height: 100%;
   margin-left: 2rem;
   margin-right: 2rem;
+  position: relative;
 
   .no-email-selected {
     width: 100%;
@@ -83,6 +102,14 @@ export default {
       top: 5px;
       right: 5px;
       cursor: pointer;
+    }
+
+    .email-header {
+      .recipient, .sender {
+        :not(:first-child) {
+          margin-left: 0.5rem;
+        }
+      }
     }
 
     .email-content {

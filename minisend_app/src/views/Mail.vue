@@ -5,16 +5,16 @@
       <div class="widgets">
         <EmailOutboxStatus/>
         <EmailOutboxAmount/>
-        <EmailLeadingRecipient />
+        <EmailLeadingRecipient/>
       </div>
-      <ShowMail/>
+      <ShowMail :mail-id="selectedMailId"/>
     </main>
     <b-button class="create-mail-button" icon-right="plus" type="is-primary" @click="writeEmailModal = true"></b-button>
     <b-modal
         v-model="writeEmailModal"
         :can-cancel="true"
         has-modal-card>
-      <WriteEmail/>
+      <WriteEmail @emailSent="emailSent()"/>
     </b-modal>
   </div>
 </template>
@@ -34,6 +34,23 @@ export default Vue.extend({
   data: () => {
     return {
       writeEmailModal: false
+    }
+  },
+  methods: {
+    emailSent() {
+      this.writeEmailModal = false;
+      this.$buefy.snackbar.open({
+        message: 'Email has been sent',
+        type: 'is-success',
+        position: 'is-bottom',
+        indefinite: false,
+      });
+      this.$store.dispatch('email/retrieveEmails');
+    }
+  },
+  computed: {
+    selectedMailId() {
+      return this.$store.getters['email/selectedEmail'] ? this.$store.getters['email/selectedEmail'].id : null;
     }
   }
 });

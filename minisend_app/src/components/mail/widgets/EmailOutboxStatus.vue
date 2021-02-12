@@ -31,7 +31,6 @@ export default Vue.extend({
       Vue.axios.get(process.env.VUE_APP_API_URL + 'email-statistics/outbox-status').then(resp => {
         if (resp && resp.data) {
           this.emailStatus = resp.data;
-          console.log(this.emailStatus);
         }
       })
     }

@@ -28,7 +28,6 @@ export default Vue.extend({
       Vue.axios.get(process.env.VUE_APP_API_URL + 'email-statistics/leading-recipient').then(resp => {
         if (resp && resp.data) {
           this.recipient = resp.data;
-          console.log(this.recipient);
         }
       })
     }

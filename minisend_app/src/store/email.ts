@@ -27,7 +27,7 @@ export const email = {
         },
         sendMail({commit}, data) {
             return new Promise((resolve) => {
-                Vue.axios.post(process.env.VUE_APP_API_URL + 'emails/send', data).then((resp) => {
+                Vue.axios.post(process.env.VUE_APP_API_URL + 'emails/send', data).then(() => {
                     resolve();
                 });
             });

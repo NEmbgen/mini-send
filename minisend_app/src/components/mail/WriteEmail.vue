@@ -34,7 +34,7 @@ export default {
   methods: {
     sendMail() {
       this.$store.dispatch('email/sendMail', {to: this.to, subject: this.subject, body: this.body}).then(() => {
-        //
+        this.$emit('emailSent');
       })
     }
   }
