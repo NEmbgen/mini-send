@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContentMail;
 use App\Models\UserMail;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 
 class UserMailController extends Controller
@@ -31,9 +34,24 @@ class UserMailController extends Controller
 
         $query->orderByDesc('created_at');
 
-        $query->with('sender')->limit(10);
+//        $query->with('sender');
+        $query->select(['to', 'created_at', 'subject', 'status', 'id']);
 
         return response()->json($query->get());
+    }
+
+    /**
+     * @param UserMail $mail
+     * @return Application|ResponseFactory|JsonResponse|Response
+     */
+    public function show(UserMail $mail)
+    {
+        $mail['sender'] = $mail->sender;
+        if (auth()->user()->id === $mail->sender_id) {
+            return response()->json($mail);
+        } else {
+            return response(['error' => 'Not allowed'], 403);
+        }
     }
 
     /**
@@ -55,14 +73,5 @@ class UserMailController extends Controller
         }
 
         return response()->json($userMail);
-    }
-
-    /**
-     * @param UserMail $mail
-     * @return JsonResponse
-     */
-    public function show(UserMail $mail): JsonResponse
-    {
-        return response()->json($mail);
     }
 }
