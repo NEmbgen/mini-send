@@ -11,6 +11,7 @@
         <div class="subject">{{ email.subject }}</div>
       </div>
     </div>
+    <div class="attachments" v-if="email.attachments && email.attachments.length !== 0">{{ email.attachments.length }} <b-icon icon="attachment"></b-icon></div>
     <div :class="statusColor" class="tag status"></div>
   </li>
 </template>
@@ -101,6 +102,17 @@ export default Vue.extend({
       font-size: 0.75rem;
       color: gray;
     }
+  }
+
+  .attachments {
+    position: absolute;
+    bottom: 0;
+    right: 18px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: gray;
   }
 
   .status {

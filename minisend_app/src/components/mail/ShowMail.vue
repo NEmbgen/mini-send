@@ -8,7 +8,7 @@
     <div class="card">
       <b-loading v-model="loading" :is-full-page="false"></b-loading>
       <b-button class="close-email" icon-right="close" type="is-danger" @click="closeEmail()"></b-button>
-      <div class="card-content" v-if="mail !== null" >
+      <div v-if="mail !== null" class="card-content">
         <div class="email-header">
           <div class="recipient">
             <div class="tag is-dark">TO:</div>
@@ -29,6 +29,15 @@
             </div>
           </div>
           <div class="email-body mt-2" v-html="mail.body">
+          </div>
+        </div>
+        <div v-if="mail.attachments && mail.attachments.length !== 0" class="attachments">
+          <h5 class="is-size-5">Attachments</h5>
+          <div class="tags">
+            <a v-for="attachment in mail.attachments" v-bind:key="attachment.id" :href="attachment.download_url"
+               class="tag is-info is-light" target="_blank">
+              {{ attachment.file_name }}
+            </a>
           </div>
         </div>
       </div>
@@ -56,6 +65,7 @@ export default Vue.extend({
         Vue.axios.get(process.env.VUE_APP_API_URL + `emails/${this.mailId}`).then((resp) => {
           if (resp && resp.data) {
             this.mail = resp.data;
+            console.log(this.mail);
           }
         }).finally(() => this.loading = false);
       } else {
@@ -122,6 +132,14 @@ export default Vue.extend({
           font-size: 1.5rem;
           font-weight: bold;
         }
+      }
+    }
+
+    .attachments {
+      margin-top: 2rem;
+
+      .tags {
+        margin-top: 0.5rem;
       }
     }
   }
