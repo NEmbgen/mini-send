@@ -1,6 +1,6 @@
 <template>
   <b-sidebar :fullheight="true" class="sidebar" open position="static" type="is-light">
-    <div class="py-1 px-2">
+    <div class="py-1 px-2 full-height-container is-flex is-flex-direction-column">
       <div class="brand">Mini Send</div>
 
       <div class="buttons has-addons mt-4 mb-0">
@@ -61,6 +61,10 @@ export default Vue.extend({
 
   .sidebar-content {
     width: 100%;
+
+    .full-height-container {
+      max-height: 100%;
+    }
   }
 
   .brand {
@@ -75,8 +79,9 @@ export default Vue.extend({
   }
 
   .mail-list-container {
-    height: 100%;
-    overflow: auto;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
   }
 }
 </style>

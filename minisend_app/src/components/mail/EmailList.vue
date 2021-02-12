@@ -16,6 +16,9 @@ export default {
 
 <style lang="scss" scoped>
 .mail-list {
+  flex: 1;
+  overflow: auto;
+
   .no-mail {
     color: gray;
     font-style: italic;

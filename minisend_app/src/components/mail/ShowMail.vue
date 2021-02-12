@@ -77,8 +77,9 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .show-mail {
   flex: 1;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
   position: relative;
 
   .no-email-selected {
@@ -93,7 +94,7 @@ export default Vue.extend({
   }
 
   .card {
-    max-width: 900px;
+    //max-width: 900px;
     margin: 0 auto;
     position: relative;
 
