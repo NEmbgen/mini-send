@@ -76,7 +76,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .show-mail {
-  height: 100%;
+  flex: 1;
   margin-left: 2rem;
   margin-right: 2rem;
   position: relative;

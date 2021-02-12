@@ -61,11 +61,12 @@ export default Vue.extend({
   width: 100%;
   height: 100%;
   display: flex;
-  overflow: hidden;
   position: relative;
 
   .mail-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .create-mail-button {
