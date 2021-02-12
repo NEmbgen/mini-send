@@ -1,5 +1,5 @@
 <template>
-  <div class="show-mail container mt-4">
+  <div class="show-mail mt-4">
     <div v-if="mail === null" class="no-email-selected">
       <b-icon icon="inbox" size="is-large"></b-icon>
       No Email selected.
@@ -79,7 +79,7 @@ export default Vue.extend({
   flex: 1;
   margin-left: auto;
   margin-right: auto;
-  width: 90%;
+  width: 100%;
   position: relative;
 
   .no-email-selected {

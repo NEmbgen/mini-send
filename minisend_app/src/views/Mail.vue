@@ -1,7 +1,7 @@
 <template>
   <div class="mail-container">
     <Sidebar/>
-    <main class="mail-content">
+    <main class="mail-content container px-5">
       <div class="widgets">
         <EmailOutboxStatus/>
         <EmailOutboxAmount/>
@@ -81,7 +81,7 @@ export default Vue.extend({
   }
 
   .widgets {
-    padding: 0.5rem 2rem;
+    padding-top: 0.5rem;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 0.5rem;
