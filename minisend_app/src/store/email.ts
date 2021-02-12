@@ -2,13 +2,16 @@ import Vue from 'vue';
 
 export const email = {
     namespaced: true,
-    state: {emails: [], selectedEmail: null},
+    state: {emails: [], selectedEmail: null, reloadStatistics: false},
     mutations: {
         saveEmails(state, emails) {
             state.emails = emails;
         },
         setSelectedEmail(state, email) {
             state.selectedEmail = email;
+        },
+        reloadStatistics(state) {
+            return state.reloadStatistics = state;
         }
     },
     actions: {
@@ -19,6 +22,13 @@ export const email = {
                         commit('saveEmails', resp.data)
                         resolve()
                     }
+                });
+            });
+        },
+        sendMail({commit}, data) {
+            return new Promise((resolve) => {
+                Vue.axios.post(process.env.VUE_APP_API_URL + 'emails/send', data).then((resp) => {
+                    resolve();
                 });
             });
         }

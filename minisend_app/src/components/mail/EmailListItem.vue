@@ -17,7 +17,7 @@
 
 <script>
 import Vue from 'vue';
-import * as moment from 'moment';
+import {format, parseISO} from "date-fns";
 
 export default Vue.extend({
   name: "MailListItem",
@@ -26,7 +26,7 @@ export default Vue.extend({
   ],
   computed: {
     dateTime() {
-      return moment(String(this.email.created_at)).format('MM/DD/YYYY hh:mm')
+      return format(parseISO(this.email.created_at), 'MM/dd/yyyy hh:mm');
     },
     statusColor() {
       switch (this.email.status) {

@@ -5,26 +5,26 @@
       No Email selected.
     </div>
     <div v-if="mail !== null" class="card">
-      <b-button class="close-email" icon-right="close" @click="closeEmail()" type="is-danger"></b-button>
+      <b-button class="close-email" icon-right="close" type="is-danger" @click="closeEmail()"></b-button>
       <div class="card-content">
         <div class="email-header">
           <div class="recipient">
-            TO: {{ mail.to }}
+            <div class="tag is-dark">TO:</div> <div class="tag is-primary">{{ mail.to }}</div>
           </div>
           <div class="sender">
-            FROM: {{ mail.sender.email }}
+            <div class="tag is-dark">FROM:</div> <div class="tag is-primary">{{ mail.sender.email }}</div>
           </div>
           <div class="email-meta">
-            {{ mail.sent_at || mail.created_at }}
+            {{ formatDate(mail.created_at) }}
           </div>
         </div>
-        <div class="email-content">
+        <div class="email-content mt-4">
           <div class="email-content-header">
             <div class="subject">
               {{ mail.subject }}
             </div>
           </div>
-          <div class="email-body">
+          <div class="email-body mt-2">
             {{ mail.body }}
           </div>
         </div>
@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import {format, parseISO} from "date-fns";
+
 export default {
   name: "ShowMail",
   computed: {
@@ -46,6 +48,9 @@ export default {
     closeEmail() {
       this.$store.commit('email/setSelectedEmail', null);
       console.log(this.$store.getters["email/selectedEmail"]);
+    },
+    formatDate(date) {
+      return format(parseISO(date), 'MM/dd/yyyy hh:mm');
     }
   }
 }
