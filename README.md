@@ -2,7 +2,17 @@
 A small email prototype.
 
 ## Description
-*Mini Send* consists of to separate applications. One Vue2 Frontend and one Laravel Backend.
+*Mini Send* consists of to separate applications:
+##### Vue
+A frontend to display all the emails you've sent. You can view emails by themselves and send new ones.
+There are also some widgets to display statistics about your activities.
+
+##### Laravel
+The Backend allows you to send and search for emails. Additionally attachments can be included in your emails and later viewed in your frontend.
+Emails you send are queued so the application can perform better when many clients are using it.
+  
+  
+  
 These app were designed together with the purpose of offering a simple platform from which to send emails and view some statistics about them.
 
 ## Installation
