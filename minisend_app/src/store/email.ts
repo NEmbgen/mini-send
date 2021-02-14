@@ -25,7 +25,7 @@ export const email = {
                 });
             });
         },
-        sendMail({commit, dispatch}, data) {
+        sendMail({dispatch}, data) {
             return new Promise((resolve) => {
                 Vue.axios.post(process.env.VUE_APP_API_URL + 'emails/send', data).then(() => {
                     dispatch('emailStatistics/refreshStatistics', {}, {root: true});

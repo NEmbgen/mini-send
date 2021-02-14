@@ -57,7 +57,7 @@ export const emailStatistics = {
             return new Promise((resolve) => {
                 commit('totalAttachmentSize', {loading: true});
                 Vue.axios.get(process.env.VUE_APP_API_URL + 'email-statistics/attachment-size').then(resp => {
-                    if (resp && resp.data && resp.data.size) {
+                    if (resp && resp.data) {
                         commit('totalAttachmentSize', {loading: false, value: resp.data.size})
                         resolve()
                     }

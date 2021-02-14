@@ -47,9 +47,9 @@ export default {
   name: "WriteEmail",
   data: () => {
     return {
-      to: 'nikoembgen@googlemail.com',
-      subject: 'Attachment Test',
-      body: 'Test Message <b>woohoo</b>',
+      to: '',
+      subject: '',
+      body: '',
       attachments: [],
       loading: false
     }

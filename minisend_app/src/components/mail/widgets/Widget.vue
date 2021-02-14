@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card widget">
     <div class="card-content">
       <div class="widget-title">
         <slot name="title"></slot>
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style lang="scss">
-.card {
+.widget {
   position: relative;
 
   .card-content {

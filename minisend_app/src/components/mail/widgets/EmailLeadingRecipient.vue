@@ -1,6 +1,6 @@
 <template>
   <Widget :loading="$store.getters['emailStatistics/leadingRecipientLoading']">
-    <template v-slot:title>Recipient you have sent the most emails to</template>
+    <template v-slot:title>Leading Recipient</template>
     <template v-slot:content>
       <div v-if="$store.getters['emailStatistics/leadingRecipient']" class="recipient-text">
         {{ $store.getters['emailStatistics/leadingRecipient'].to }} <span
