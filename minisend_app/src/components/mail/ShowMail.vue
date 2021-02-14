@@ -19,6 +19,9 @@
             <div class="tag is-primary">{{ mail.sender.email }}</div>
           </div>
           <div class="email-meta">
+            <span
+                :class="{'is-success': mail.status === 'SENT', 'is-warning': mail.status === 'POSTED', 'is-danger': mail.status === 'FAILED'}"
+                class="tag">{{ mail.status }}:</span>
             {{ formatDate(mail.created_at) }}
           </div>
         </div>
@@ -120,6 +123,7 @@ export default Vue.extend({
           margin-left: 0.5rem;
         }
       }
+
       .email-meta {
         color: gray;
         font-size: 0.825rem;
