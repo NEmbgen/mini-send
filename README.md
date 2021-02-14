@@ -37,7 +37,7 @@ composer install
 
 #### Auth
 ```
-php artisan jwt:generate
+php artisan jwt:secret
 ```
 *P.S.: If you don't seed your database you will need to create a new User yourself.*
 
