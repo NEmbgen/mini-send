@@ -9,6 +9,7 @@ There are also some widgets to display statistics about your activities.
 
 ##### Laravel
 The Backend allows you to send and search for emails. Additionally attachments can be included in your emails and later viewed in your frontend.
+Emails you send are queued so the application can perform better when many clients are using it.
   
   
   
