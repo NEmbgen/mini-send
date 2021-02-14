@@ -34,6 +34,7 @@ Route::prefix('email-statistics')->middleware('auth:api')->group(function () {
     Route::get('outbox-status', [UserMailStatisticsController::class, 'outboxStatus']);
     Route::get('sent-amount', [UserMailStatisticsController::class, 'sentAmount']);
     Route::get('leading-recipient', [UserMailStatisticsController::class, 'leadingRecipient']);
+    Route::get('attachment-size', [UserMailStatisticsController::class, 'attachmentSize']);
 });
 
 Route::prefix('auth')->middleware('api')->group(function () {

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContentMail;
-use App\Models\UserMailAttachment;
 use App\Models\UserMail;
+use App\Models\UserMailAttachment;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
-use Symfony\Component\Console\Input\Input;
 
 class UserMailController extends Controller
 {
@@ -61,9 +61,9 @@ class UserMailController extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return Application|ResponseFactory|JsonResponse|Response
      */
-    public function send(Request $request): JsonResponse
+    public function send(Request $request)
     {
         $userMail = new UserMail();
         $userMail->fill($request->all());
@@ -71,29 +71,26 @@ class UserMailController extends Controller
         $userMail->status = 'POSTED';
         $userMail->save();
 
-        if(sizeof($request->allFiles()) > 0)
-        {
-            foreach ($request->allFiles() as $file)
-            {
+        if (sizeof($request->allFiles()) > 0) {
+            foreach ($request->allFiles() as $file) {
                 $attachment = new UserMailAttachment();
                 $attachment->user_mail_id = $userMail->id;
                 $attachment->file_size = $file->getSize();
                 $attachment->file_name = time() . '_' . $file->getClientOriginalName();
                 $attachment->mime_type = mime_content_type($file->getPathname());
-                $temp = $file->move(public_path().'/attachments/', $attachment->file_name);
+                $temp = $file->move(public_path() . '/attachments/', $attachment->file_name);
                 $attachment->path = $temp->getPathname();
                 $attachment->download_url = asset('attachments/' . $temp->getFilename());
                 $attachment->save();
             }
         }
 
-        $userMail['attachments'] = $userMail->attachments;
-
         Mail::to(['email' => $userMail->to])->queue(new ContentMail($userMail));
+        $userMail->status = 'SENT';
+        $userMail->sent_at = Carbon::now();
+        $userMail->save();
 
-        if (Mail::failures()) {
-            return response()->json(Mail::failures());
-        }
+        $userMail['attachments'] = $userMail->attachments;
 
         return response()->json($userMail);
     }

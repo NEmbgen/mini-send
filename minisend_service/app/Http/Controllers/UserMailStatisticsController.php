@@ -41,4 +41,23 @@ class UserMailStatisticsController extends Controller
             ->first();
         return response()->json($count);
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function attachmentSize(): JsonResponse
+    {
+        $mails = UserMail::where('sender_id', auth()->user()->id)->get();
+        $size = 0;
+        foreach ($mails as $mail) {
+            if ($mail->attachments()->count() > 0) {
+                $attachments = $mail->attachments;
+                foreach ($attachments as $attachment) {
+                    $size += $attachment->file_size;
+                }
+            }
+        }
+
+        return response()->json(['size' => $size]);
+    }
 }
