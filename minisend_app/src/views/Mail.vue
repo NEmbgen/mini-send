@@ -6,15 +6,16 @@
         <EmailOutboxStatus/>
         <EmailOutboxAmount/>
         <EmailLeadingRecipient/>
+        <AttachmentSize/>
       </div>
       <ShowMail :mail-id="selectedMailId"/>
     </main>
     <b-button class="create-mail-button" icon-right="plus" type="is-primary" @click="writeEmailModal = true"></b-button>
     <b-modal
         v-model="writeEmailModal"
-        :can-cancel="true"
+        :can-cancel="false"
         has-modal-card>
-      <WriteEmail @emailSent="emailSent()"/>
+      <WriteEmail @emailSent="emailSent()" @cancel="writeEmailModal = false"/>
     </b-modal>
   </div>
 </template>
@@ -27,10 +28,13 @@ import WriteEmail from "@/components/mail/WriteEmail";
 import EmailOutboxStatus from "@/components/mail/widgets/EmailOutboxStatus";
 import EmailOutboxAmount from "@/components/mail/widgets/EmailOutboxAmount";
 import EmailLeadingRecipient from "@/components/mail/widgets/EmailLeadingRecipient";
+import AttachmentSize from "@/components/mail/widgets/AttachmentSize";
 
 export default Vue.extend({
   name: "Dashboard",
-  components: {EmailLeadingRecipient, EmailOutboxAmount, EmailOutboxStatus, WriteEmail, ShowMail, Sidebar},
+  components: {
+    AttachmentSize,
+    EmailLeadingRecipient, EmailOutboxAmount, EmailOutboxStatus, WriteEmail, ShowMail, Sidebar},
   data: () => {
     return {
       writeEmailModal: false

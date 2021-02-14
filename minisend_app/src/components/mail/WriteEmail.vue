@@ -35,6 +35,7 @@
 
         <div class="actions mt-4">
           <b-button :loading="loading" icon-left="send" type="is-primary" @click="sendMail()">Send</b-button>
+          <b-button :disabled="loading" icon-left="close" class="ml-2" type="is-danger" @click="$emit('cancel')">Cancel</b-button>
         </div>
       </form>
     </div>

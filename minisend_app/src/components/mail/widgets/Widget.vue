@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .card {
   position: relative;
 
@@ -32,6 +32,15 @@ export default {
       text-transform: uppercase;
       font-size: 0.75rem;
       margin-bottom: 0.5rem;
+    }
+
+    .widget-text {
+      color: darkgray;
+
+      .widget-value {
+        color: black;
+        font-size: 1.25rem;
+      }
     }
   }
 }

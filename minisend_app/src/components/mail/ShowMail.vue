@@ -65,7 +65,6 @@ export default Vue.extend({
         Vue.axios.get(process.env.VUE_APP_API_URL + `emails/${this.mailId}`).then((resp) => {
           if (resp && resp.data) {
             this.mail = resp.data;
-            console.log(this.mail);
           }
         }).finally(() => this.loading = false);
       } else {
@@ -120,6 +119,11 @@ export default Vue.extend({
         :not(:first-child) {
           margin-left: 0.5rem;
         }
+      }
+      .email-meta {
+        color: gray;
+        font-size: 0.825rem;
+        margin-top: 0.5rem;
       }
     }
 

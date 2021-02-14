@@ -1,8 +1,10 @@
 <template>
-  <Widget :loading="recipient === null">
-    <template v-slot:title>Recipient you have sent most emails to</template>
+  <Widget :loading="$store.getters['emailStatistics/leadingRecipientLoading']">
+    <template v-slot:title>Recipient you have sent the most emails to</template>
     <template v-slot:content>
-      <div v-if="recipient" class="recipient-text">{{ recipient.to }} <span class="muted">({{ recipient.count}})</span>
+      <div v-if="$store.getters['emailStatistics/leadingRecipient']" class="recipient-text">
+        {{ $store.getters['emailStatistics/leadingRecipient'].to }} <span
+          class="muted">({{ $store.getters['emailStatistics/leadingRecipient'].count }})</span>
       </div>
     </template>
   </Widget>
@@ -15,22 +17,8 @@ import Widget from "@/components/mail/widgets/Widget";
 export default Vue.extend({
   name: "EmailLeadingRecipient",
   components: {Widget},
-  data: () => {
-    return {
-      recipient: null
-    }
-  },
   mounted() {
-    this.loadOutboxStatus();
-  },
-  methods: {
-    loadOutboxStatus() {
-      Vue.axios.get(process.env.VUE_APP_API_URL + 'email-statistics/leading-recipient').then(resp => {
-        if (resp && resp.data) {
-          this.recipient = resp.data;
-        }
-      })
-    }
+    this.$store.dispatch('emailStatistics/loadLeadingRecipient');
   }
 });
 </script>

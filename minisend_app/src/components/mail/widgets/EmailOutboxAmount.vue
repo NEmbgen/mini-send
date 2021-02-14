@@ -1,9 +1,9 @@
 <template>
-  <Widget :loading="sentAmount === null">
+  <Widget :loading="$store.getters['emailStatistics/outboxAmountLoading']">
     <template v-slot:title>Outbox Sent Amount</template>
     <template v-slot:content>
-      <div class="amount-text">You have sent <span class="amount">{{ sentAmount }}</span>
-        {{ sentAmount === 1 ? 'email' : 'emails' }}.
+      <div class="amount-text">You have sent <span class="amount">{{ $store.getters['emailStatistics/outboxAmount'] }}</span>
+        {{ $store.getters['emailStatistics/outboxAmount'] === 1 ? 'email' : 'emails' }}.
       </div>
     </template>
   </Widget>
@@ -16,23 +16,9 @@ import Widget from "@/components/mail/widgets/Widget";
 export default Vue.extend({
   name: "EmailOutboxAmount",
   components: {Widget},
-  data: () => {
-    return {
-      sentAmount: null
-    }
-  },
   mounted() {
-    this.loadOutboxStatus();
+    this.$store.dispatch('emailStatistics/loadOutboxAmount');
   },
-  methods: {
-    loadOutboxStatus() {
-      Vue.axios.get(process.env.VUE_APP_API_URL + 'email-statistics/sent-amount').then(resp => {
-        if (resp && resp.data) {
-          this.sentAmount = resp.data;
-        }
-      })
-    }
-  }
 });
 </script>
 
